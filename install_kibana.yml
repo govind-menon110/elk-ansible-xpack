@@ -1,0 +1,6 @@
+- hosts: kibana
+  become: true
+  tasks:
+          - name: Installing Kibana XPACK {{ kibana_version }}
+            yum: name=https://artifacts.elastic.co/downloads/kibana/kibana-{{ kibana_version }}-x86_64.rpm
+

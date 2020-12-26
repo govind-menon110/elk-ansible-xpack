@@ -1,0 +1,75 @@
+- hosts: all
+  become: true
+  tasks:
+          - name: Parition if NVME
+            parted:
+                    device: /dev/nvme1n1
+                    number: 1
+                    state: present
+            ignore_errors: true
+          - name: Format
+            filesystem:
+                    fstype: xfs
+                    dev: /dev/nvme1n1p1
+            ignore_errors: true
+          - name: Directory
+            file:
+                    path: "{{ es_data_dir }}"
+                    state: directory
+                    mode: '0777'
+            ignore_errors: true
+          - name: Mount
+            mount:
+                    path: "{{ es_data_dir }}"
+                    src: /dev/nvme1n1p1
+                    fstype: xfs
+                    state: mounted
+            ignore_errors: true
+          - name: Parition if Xvdf
+            parted:
+                    device: /dev/xvdf
+                    number: 1
+                    state: present
+            ignore_errors: true
+          - name: Format
+            filesystem:
+                    fstype: xfs
+                    dev: /dev/xvdf1
+            ignore_errors: true
+          - name: Directory
+            file:
+                    path: "{{ es_data_dir }}"
+                    state: directory
+                    mode: '0777'
+            ignore_errors: true
+          - name: Mount
+            mount:
+                    path: "{{ es_data_dir }}"
+                    src: /dev/xvdf1
+                    fstype: xfs
+                    state: mounted
+            ignore_errors: true
+          - name: Parition if Xvdb
+            parted:
+                    device: /dev/xvdb
+                    number: 1
+                    state: present
+            ignore_errors: true
+          - name: Format
+            filesystem:
+                    fstype: xfs
+                    dev: /dev/xvdb1
+            ignore_errors: true
+          - name: Directory
+            file:
+                    path: "{{ es_data_dir }}"
+                    state: directory
+                    mode: '0777'
+            ignore_errors: true
+          - name: Mount
+            mount:
+                    path: "{{ es_data_dir }}"
+                    src: /dev/xvdb1
+                    fstype: xfs
+                    state: mounted
+            ignore_errors: true

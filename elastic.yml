@@ -1,0 +1,71 @@
+- hosts: masters
+  roles:
+   - role: elastic.elasticsearch
+  vars:
+    es_heap_size: "{{ es_master_heap_size }}"
+    es_data_dirs:
+      - "{{ es_data_dir | join('') }}/elasticsearch"
+    es_config:
+      cluster.name: "{{ es_cluster_name }}"
+      network.host: 0
+      cluster.initial_master_nodes: "{{ groups['masters'] | list  }}"
+      discovery.seed_hosts: "{{ groups['masters'][0] }}"
+      http.port: 9200
+      node.data: true
+      node.master: true
+      node.ingest: true
+      node.ml: true
+      cluster.remote.connect: false
+      bootstrap.memory_lock: true
+    es_api_basic_auth_username: "{{ elastic_superuser }}"
+    es_api_basic_auth_password: "{{ elastic_bootstrappass }}"
+    es_enable_http_ssl: true
+    es_enable_transport_ssl: true
+    es_ssl_keystore: "{{ es_common_p12_path }}"
+    es_ssl_truststore: "{{ es_common_p12_path }}"
+- hosts: data
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_data_dirs:
+      - "{{ es_data_dir | join('') }}/elasticsearch"
+    es_heap_size: "{{ es_data_heap_size }}"
+    es_config:
+      cluster.name: "{{ es_cluster_name }}"
+      network.host: 0
+      discovery.seed_hosts: "{{ groups['masters'][0] }}"
+      http.port: 9200
+      node.data: true
+      node.master: false
+      node.ml: false
+      bootstrap.memory_lock: true
+      indices.recovery.max_bytes_per_sec: 100mb
+    es_api_basic_auth_username: "{{ elastic_superuser }}"
+    es_api_basic_auth_password: "{{ elastic_bootstrappass }}"
+    es_enable_http_ssl: true
+    es_enable_transport_ssl: true
+    es_ssl_keystore: "{{ es_common_p12_path }}"
+    es_ssl_truststore: "{{ es_common_p12_path }}"
+- hosts: coordinating
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_heap_size: "{{ es_coord_heap_size }}"
+    es_data_dirs:
+      - "{{ es_data_dir | join('') }}/elasticsearch"
+    es_config:
+      cluster.name: "{{ es_cluster_name }}"
+      network.host: 0
+      discovery.seed_hosts: "{{ groups['masters'][0] }}"
+      http.port: 9200
+      node.data: false
+      node.master: false
+      node.ingest: false
+      node.ml: false
+      bootstrap.memory_lock: true
+    es_api_basic_auth_username: "{{ elastic_superuser }}"
+    es_api_basic_auth_password: "{{ elastic_bootstrappass }}"
+    es_enable_http_ssl: true
+    es_enable_transport_ssl: true
+    es_ssl_keystore: "{{ es_common_p12_path }}"
+    es_ssl_truststore: "{{ es_common_p12_path }}"

@@ -1,0 +1,26 @@
+    kibana_encryption_key: "<32_character_alphanumeric>"
+    kibana_es_user: "kibana_system"
+    kibana_password: "<your_kibana_password>"
+    kibana_version: "7.10.1"
+
+    elastic_bootstrappass: "changeme"
+    elastic_superuser: "elastic"
+    elastic_superuserpass: "<your_elastic_password>"
+
+    logstash_userpass: "<your_logstash_password>"
+
+    apm_userpass: "<your_apm_password>"
+
+    monitoring_userpass: "<your_monitoring_password>"
+
+    beats_userpass: "<your_beats_password>"
+
+    es_data_dir: "/es-data"
+
+    es_master_heap_size: "2g"
+    es_data_heap_size: "2g"
+    es_coord_heap_size: "2g"
+    es_cluster_name: "<cluster_name>"
+
+    es_common_p12_path: "<complete_path_to_unzipped_certs_folder>/instance/instance.p12"
+    kibana_ca_cert: "<complete_path_to_unzipped_certs_folder>/ca/ca.pem" 

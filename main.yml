@@ -1,0 +1,4 @@
+- import_playbook: "disk.yml"
+- import_playbook: "elastic.yml"
+- import_playbook: "install_kibana.yml"
+- import_playbook: "kibana.yml"

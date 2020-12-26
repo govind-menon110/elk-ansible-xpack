@@ -1,0 +1,14 @@
+- hosts: kibana
+  become: true
+  roles:
+          - role: fedelemantuano.kibana
+            kibana_config:
+                    server.name: "{{ inventory_hostname }}"
+                    server.port: 5601
+                    server.host: "{{ ansible_default_ipv4.address }}"
+                    elasticsearch.hosts: "{% for host in groups['coordinating']  %}http://{{ host }}:9200/{%- if not loop.last %},{% endif %}{% endfor %}"
+                    elasticsearch.requestTimeout: 500000
+                    elasticsearch.shardTimeout: 470000
+                    logging.verbose: true
+            es_version: "{{ kibana_version }}"
+            kibana_install_oss: false
