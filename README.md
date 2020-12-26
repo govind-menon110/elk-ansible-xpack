@@ -41,7 +41,7 @@ Remember the IP list you made earlier? It will help you now.
      [kibana]
       1.2.2.1
      ```
-     Though not recommended, by default host key check during ssh is disabled by default for usability.
+     Though not recommended, host key check during ssh is disabled by default for usability.
 2.  Install elasticsearch locally on your system (from where ansible is being orchestrated). Run the following in sequence:
     ```sh
     $ /usr/share/elasticsearch/bin/elasticsearch-certutil cert --keep-ca-key --pass "" --out "<full_path_to_current_folder>/certs.zip" --silent --ca-pass ""
